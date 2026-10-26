@@ -1,0 +1,15 @@
+Clinic Image Practice — Start Here
+
+Indha project oru fictional practice website. Idhu unga MD-oda real website illa.
+
+Step 1: ZIP file-a extract pannunga. Extract aana folder-ai VS Code-la open pannunga.
+Step 2: index.html file-ai browser-la open panni page-a paarunga.
+Step 3: Oru practice photo-ai images folder-kulla copy pannunga.
+Step 4: VS Code-la index.html open panni, img tag-la irukkura src value-ai unga photo filename-ku maathunga.
+Example: images/clinic-placeholder.svg -> images/my-photo.jpg
+Step 5: Save pannitu browser-la refresh pannunga. Photo vandhucha-nu paarunga.
+
+Image practice note:
+- First practice-ku unga personal photo use panna vendam; any sample/stock image use pannunga.
+- Filename-la spaces illama irundha easy. Example: clinic-room.jpg
+- Photo folder-kulla irukkanum; filename-um spelling-um src-la match aaganum.

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NK Health Clinic | Admin Dashboard</title>
+  <style>
+    :root {
+      --teal: #087f8c;
+      --teal-dark: #075e66;
+      --page: #f4f7fb;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--page);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    header {
+      background: linear-gradient(120deg, var(--teal-dark), #0b8990);
+      color: white;
+      padding: 24px max(5%, calc((100% - 1400px) / 2));
+      box-shadow: 0 4px 18px #0b59661c;
+    }
+    header h1 { font-size: clamp(24px, 3vw, 32px); letter-spacing: -.5px; }
+    header p { margin-top: 5px; color: #d7f5f3; font-size: 14px; }
+    .container { max-width: 1500px; margin: 0 auto; padding: 34px 5%; }
+    .welcome { margin-bottom: 26px; }
+    .welcome h2 { font-size: clamp(24px, 3vw, 30px); color: #153447; margin-bottom: 6px; }
+    .welcome p { color: var(--muted); }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      margin-bottom: 30px;
+      align-items: stretch;
+    }
+    .stat-card {
+      min-width: 0;
+      background: white;
+      padding: 24px;
+      border: 1px solid #e7edf3;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px #183b5610;
+      display: flex;
+      align-items: center;
+      gap: 17px;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .stat-card:hover { transform: translateY(-3px); box-shadow: 0 10px 26px #183b5618; }
+    .stat-icon {
+      width: 56px; height: 56px; flex: 0 0 56px;
+      display: grid; place-items: center;
+      border-radius: 14px; font-size: 27px;
+      background: #e5f7f7;
+    }
+    .stat-copy p { color: var(--muted); font-size: 14px; font-weight: 600; margin-bottom: 5px; }
+    .stat-copy h3 { font-size: clamp(28px, 3vw, 36px); color: var(--teal); line-height: 1.2; }
+    .appointments {
+      background: white; padding: 28px;
+      border: 1px solid #e7edf3; border-radius: 16px;
+      box-shadow: 0 5px 22px #183b560b;
+    }
+    .panel-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .appointments h2 { color: #153447; font-size: 22px; }
+    .subheading { color: var(--muted); font-size: 14px; margin-top: 4px; }
+    #searchAppointment {
+      display: block; width: 100%; padding: 13px 16px;
+      margin: 20px 0; border: 1px solid #d6e0e9;
+      border-radius: 10px; background: #f9fbfd; color: var(--text);
+      font: inherit; outline: none; transition: border-color .2s, box-shadow .2s;
+    }
+    #searchAppointment:focus { border-color: #0b8990; box-shadow: 0 0 0 3px #0b89901c; background: white; }
+    .table-wrap { width: 100%; overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+    table { width: 100%; min-width: 900px; border-collapse: collapse; text-align: left; }
+    thead th {
+      padding: 14px 13px; background: #edf7f7; color: #24545a;
+      font-size: 12px; text-transform: uppercase; letter-spacing: .45px; white-space: nowrap;
+    }
+    tbody td { padding: 14px 13px; color: #475569; font-size: 14px; border-top: 1px solid #edf0f4; vertical-align: middle; }
+    tbody tr:hover { background: #f0fdfa; }
+    .appointments select {
+      padding: 9px 10px; border: 1px solid #d5e0e8; border-radius: 8px;
+      font: inherit; cursor: pointer; min-width: 120px; transition: background .15s, color .15s;
+    }
+    select.status-pending { background: #fff4d6; color: #946200; border-color: #eabf52; }
+    select.status-confirmed { background: #d9fbe8; color: #137547; border-color: #65c995; }
+    select.status-completed { background: #dbeafe; color: #1d4ed8; border-color: #93baf7; }
+    select.status-cancelled { background: #fee2e2; color: #b91c1c; border-color: #f3a0a0; }
+    .appointments button {
+      padding: 9px 16px; border: none; border-radius: 8px;
+      background: var(--teal); color: white; font-weight: 600; font-size: 13px;
+      cursor: pointer; transition: background .2s, transform .2s;
+    }
+    .appointments button:hover { background: #065f67; transform: translateY(-1px); }
+    .message { color: var(--muted); padding: 15px 0 0; font-size: 14px; min-height: 36px; }
+    .empty-state { text-align: center; color: var(--muted); padding: 28px 12px; }
+    .connection-note { margin-top: 12px; color: var(--muted); font-size: 12px; }
+    @media (max-width: 800px) {
+      .container { padding: 26px 4%; }
+      .stats { gap: 14px; }
+      .stat-card { padding: 18px; gap: 12px; }
+      .stat-icon { width: 46px; height: 46px; flex-basis: 46px; font-size: 23px; }
+      .appointments { padding: 20px; }
+    }
+    @media (max-width: 620px) {
+      header { padding: 22px 5%; }
+      .stats { grid-template-columns: 1fr; }
+      .stat-card { padding: 20px; }
+      .appointments { padding: 16px; border-radius: 12px; }
+      .appointments h2 { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>NK Health Clinic</h1>
+    <p>Admin Dashboard | Appointment Management</p>
+  </header>
+
+  <main class="container">
+    <section class="welcome">
+      <h2>Welcome, Admin!</h2>
+      <p>Manage your clinic appointments from one place.</p>
+    </section>
+
+    <section class="stats" aria-label="Appointment summary">
+      <article class="stat-card">
+        <div class="stat-icon" aria-hidden="true">📋</div>
+        <div class="stat-copy"><p>Total Appointments</p><h3 id="totalAppointments">0</h3></div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-icon" aria-hidden="true">⏳</div>
+        <div class="stat-copy"><p>Pending Appointments</p><h3 id="pendingAppointments">0</h3></div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-icon" aria-hidden="true">✅</div>
+        <div class="stat-copy"><p>Confirmed Appointments</p><h3 id="confirmedAppointments">0</h3></div>
+      </article>
+    </section>
+
+    <section class="appointments">
+      <div class="panel-heading">
+        <div>
+          <h2>Appointment Management</h2>
+          <p class="subheading">Search, review and update patient appointments.</p>
+        </div>
+      </div>
+      <input type="search" id="searchAppointment" placeholder="Search patient or appointment number..." aria-label="Search appointments">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Appointment No.</th><th>Patient</th><th>Phone</th><th>Doctor</th>
+              <th>Date</th><th>Time</th><th>Status</th><th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="appointmentTable"></tbody>
+        </table>
+      </div>
+      <p class="message" id="appointmentMessage" role="status" aria-live="polite">Loading appointments...</p>
+      <p class="connection-note">Appointments are read from this browser's local storage. Open the clinic page and admin page from the same local server address to share data.</p>
+    </section>
+  </main>
+
+  <script>
+    "use strict";
+
+    // index.html and admin.html must use the same origin and this same storage key.
+    const STORAGE_KEY = "appointments";
+    const STATUSES = ["Pending", "Confirmed", "Completed", "Cancelled"];
+
+    function getAppointments() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        return Array.isArray(saved) ? saved : [];
+      } catch (error) {
+        console.error("Could not read appointments from localStorage:", error);
+        return [];
+      }
+    }
+
+    function saveAppointments(appointments) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appointments));
+    }
+
+    function updateStatusColor(select) {
+      select.classList.remove("status-pending", "status-confirmed", "status-completed", "status-cancelled");
+      select.classList.add("status-" + select.value.toLowerCase());
+    }
+
+    function updateDashboard() {
+      const appointments = getAppointments();
+      document.getElementById("totalAppointments").textContent = appointments.length;
+      document.getElementById("pendingAppointments").textContent =
+        appointments.filter(a => !a.status || a.status === "Pending").length;
+      document.getElementById("confirmedAppointments").textContent =
+        appointments.filter(a => a.status === "Confirmed").length;
+      displayAppointments();
+    }
+
+    function addCell(row, value) {
+      const cell = document.createElement("td");
+      cell.textContent = value || "N/A";
+      row.appendChild(cell);
+      return cell;
+    }
+
+    function displayAppointments() {
+      const appointments = getAppointments();
+      const table = document.getElementById("appointmentTable");
+      const message = document.getElementById("appointmentMessage");
+      const search = document.getElementById("searchAppointment").value.trim().toLowerCase();
+
+      table.replaceChildren();
+
+      const filtered = appointments
+        .map((appointment, index) => ({ appointment, index }))
+        .filter(({ appointment: a }) =>
+          String(a.patientName || "").toLowerCase().includes(search) ||
+          String(a.appointmentNumber || "").toLowerCase().includes(search)
+        );
+
+      if (filtered.length === 0) {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.colSpan = 8;
+        cell.className = "empty-state";
+        cell.textContent = appointments.length ? "No matching appointments found." : "No appointments yet. Book one from the clinic website first.";
+        row.appendChild(cell);
+        table.appendChild(row);
+      }
+
+      filtered.forEach(({ appointment: a, index }) => {
+        const row = document.createElement("tr");
+        addCell(row, a.appointmentNumber);
+        addCell(row, a.patientName);
+        addCell(row, a.phone);
+        addCell(row, a.doctorName || a.doctor);
+        addCell(row, a.appointmentDate);
+        addCell(row, a.appointmentTime);
+
+        const statusCell = document.createElement("td");
+        const select = document.createElement("select");
+        select.setAttribute("aria-label", "Status for " + (a.appointmentNumber || a.patientName || "appointment"));
+        STATUSES.forEach(status => {
+          const option = document.createElement("option");
+          option.value = status;
+          option.textContent = status;
+          select.appendChild(option);
+        });
+        select.value = STATUSES.includes(a.status) ? a.status : "Pending";
+        updateStatusColor(select);
+        select.addEventListener("change", () => updateStatusColor(select));
+        statusCell.appendChild(select);
+        row.appendChild(statusCell);
+
+        const actionCell = document.createElement("td");
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = "Save";
+        button.addEventListener("click", () => {
+          const currentAppointments = getAppointments();
+          if (!currentAppointments[index]) {
+            message.textContent = "Appointment not found. Refresh the page and try again.";
+            return;
+          }
+          currentAppointments[index].status = select.value;
+          try {
+            saveAppointments(currentAppointments);
+            updateDashboard();
+            message.textContent = "Status saved: " + select.value;
+          } catch (error) {
+            console.error("Could not save appointment status:", error);
+            message.textContent = "Could not save. Check browser storage settings.";
+          }
+        });
+        actionCell.appendChild(button);
+        row.appendChild(actionCell);
+        table.appendChild(row);
+      });
+
+      message.textContent = filtered.length + " appointment(s) found.";
+    }
+
+    document.getElementById("searchAppointment").addEventListener("input", displayAppointments);
+
+    // Refresh the dashboard if the clinic page changes localStorage in another tab.
+    window.addEventListener("storage", event => {
+      if (event.key === STORAGE_KEY || event.key === null) updateDashboard();
+    });
+
+    updateDashboard();
+  </script>
+</body>
+</html>
