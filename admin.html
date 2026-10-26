@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NK Health Clinic | Admin Dashboard</title>
+
   <style>
     :root {
       --teal: #087f8c;
@@ -13,32 +15,57 @@
       --muted: #64748b;
       --border: #e2e8f0;
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       font-family: "Segoe UI", Arial, sans-serif;
       background: var(--page);
       color: var(--text);
       line-height: 1.5;
     }
+
     header {
       background: linear-gradient(120deg, var(--teal-dark), #0b8990);
       color: white;
       padding: 24px max(5%, calc((100% - 1400px) / 2));
       box-shadow: 0 4px 18px #0b59661c;
     }
-    header h1 { font-size: clamp(24px, 3vw, 32px); letter-spacing: -.5px; }
-    header p { margin-top: 5px; color: #d7f5f3; font-size: 14px; }
-    .container { max-width: 1500px; margin: 0 auto; padding: 34px 5%; }
+
+    header h1 {
+      font-size: clamp(24px, 3vw, 32px);
+      letter-spacing: -.5px;
+    }
+
+    header p {
+      margin-top: 5px;
+      color: #d7f5f3;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 34px 5%;
+    }
+
     .welcome { margin-bottom: 26px; }
-    .welcome h2 { font-size: clamp(24px, 3vw, 30px); color: #153447; margin-bottom: 6px; }
-    .welcome p { color: var(--muted); }
+
+    .welcome h2 {
+      font-size: clamp(24px, 3vw, 30px);
+      color: #153447;
+      margin-bottom: 6px;
+    }
+
+    .welcome p, .subheading { color: var(--muted); }
+
     .stats {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 22px;
       margin-bottom: 30px;
-      align-items: stretch;
     }
+
     .stat-card {
       min-width: 0;
       background: white;
@@ -51,108 +78,304 @@
       gap: 17px;
       transition: transform .2s ease, box-shadow .2s ease;
     }
-    .stat-card:hover { transform: translateY(-3px); box-shadow: 0 10px 26px #183b5618; }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 26px #183b5618;
+    }
+
     .stat-icon {
-      width: 56px; height: 56px; flex: 0 0 56px;
-      display: grid; place-items: center;
-      border-radius: 14px; font-size: 27px;
+      width: 56px;
+      height: 56px;
+      flex: 0 0 56px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      font-size: 27px;
       background: #e5f7f7;
     }
-    .stat-copy p { color: var(--muted); font-size: 14px; font-weight: 600; margin-bottom: 5px; }
-    .stat-copy h3 { font-size: clamp(28px, 3vw, 36px); color: var(--teal); line-height: 1.2; }
+
+    .stat-copy p {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .stat-copy h3 {
+      font-size: clamp(28px, 3vw, 36px);
+      color: var(--teal);
+      line-height: 1.2;
+    }
+
     .appointments {
-      background: white; padding: 28px;
-      border: 1px solid #e7edf3; border-radius: 16px;
+      background: white;
+      padding: 28px;
+      border: 1px solid #e7edf3;
+      border-radius: 16px;
       box-shadow: 0 5px 22px #183b560b;
     }
-    .panel-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .appointments h2 { color: #153447; font-size: 22px; }
-    .subheading { color: var(--muted); font-size: 14px; margin-top: 4px; }
+
+    .panel-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .appointments h2 {
+      color: #153447;
+      font-size: 22px;
+    }
+
+    .subheading {
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
     #searchAppointment {
-      display: block; width: 100%; padding: 13px 16px;
-      margin: 20px 0; border: 1px solid #d6e0e9;
-      border-radius: 10px; background: #f9fbfd; color: var(--text);
-      font: inherit; outline: none; transition: border-color .2s, box-shadow .2s;
+      display: block;
+      width: 100%;
+      padding: 13px 16px;
+      margin: 20px 0;
+      border: 1px solid #d6e0e9;
+      border-radius: 10px;
+      background: #f9fbfd;
+      color: var(--text);
+      font: inherit;
+      outline: none;
     }
-    #searchAppointment:focus { border-color: #0b8990; box-shadow: 0 0 0 3px #0b89901c; background: white; }
-    .table-wrap { width: 100%; overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
-    table { width: 100%; min-width: 900px; border-collapse: collapse; text-align: left; }
+
+    #searchAppointment:focus {
+      border-color: #0b8990;
+      box-shadow: 0 0 0 3px #0b89901c;
+      background: white;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 900px;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
     thead th {
-      padding: 14px 13px; background: #edf7f7; color: #24545a;
-      font-size: 12px; text-transform: uppercase; letter-spacing: .45px; white-space: nowrap;
+      padding: 14px 13px;
+      background: #edf7f7;
+      color: #24545a;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .45px;
+      white-space: nowrap;
     }
-    tbody td { padding: 14px 13px; color: #475569; font-size: 14px; border-top: 1px solid #edf0f4; vertical-align: middle; }
+
+    tbody td {
+      padding: 14px 13px;
+      color: #475569;
+      font-size: 14px;
+      border-top: 1px solid #edf0f4;
+      vertical-align: middle;
+    }
+
     tbody tr:hover { background: #f0fdfa; }
+
     .appointments select {
-      padding: 9px 10px; border: 1px solid #d5e0e8; border-radius: 8px;
-      font: inherit; cursor: pointer; min-width: 120px; transition: background .15s, color .15s;
+      padding: 9px 10px;
+      border: 1px solid #d5e0e8;
+      border-radius: 8px;
+      font: inherit;
+      cursor: pointer;
+      min-width: 120px;
     }
-    select.status-pending { background: #fff4d6; color: #946200; border-color: #eabf52; }
-    select.status-confirmed { background: #d9fbe8; color: #137547; border-color: #65c995; }
-    select.status-completed { background: #dbeafe; color: #1d4ed8; border-color: #93baf7; }
-    select.status-cancelled { background: #fee2e2; color: #b91c1c; border-color: #f3a0a0; }
-    .appointments button {
-      padding: 9px 16px; border: none; border-radius: 8px;
-      background: var(--teal); color: white; font-weight: 600; font-size: 13px;
-      cursor: pointer; transition: background .2s, transform .2s;
+
+    select.status-pending {
+      background: #fff4d6;
+      color: #946200;
+      border-color: #eabf52;
     }
-    .appointments button:hover { background: #065f67; transform: translateY(-1px); }
-    .message { color: var(--muted); padding: 15px 0 0; font-size: 14px; min-height: 36px; }
-    .empty-state { text-align: center; color: var(--muted); padding: 28px 12px; }
-    .connection-note { margin-top: 12px; color: var(--muted); font-size: 12px; }
+
+    select.status-confirmed {
+      background: #d9fbe8;
+      color: #137547;
+      border-color: #65c995;
+    }
+
+    select.status-completed {
+      background: #dbeafe;
+      color: #1d4ed8;
+      border-color: #93baf7;
+    }
+
+    select.status-cancelled {
+      background: #fee2e2;
+      color: #b91c1c;
+      border-color: #f3a0a0;
+    }
+
+    .appointments button, .action-button {
+      padding: 9px 16px;
+      border: none;
+      border-radius: 8px;
+      background: var(--teal);
+      color: white;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .appointments button:hover, .action-button:hover {
+      background: #065f67;
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .message {
+      color: var(--muted);
+      padding: 15px 0 0;
+      font-size: 14px;
+      min-height: 36px;
+      overflow-wrap: anywhere;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: var(--muted);
+      padding: 28px 12px;
+    }
+
+    .connection-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .auth-panel {
+      max-width: 440px;
+      margin: 42px auto;
+      padding: 28px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      box-shadow: 0 8px 28px #183b5610;
+    }
+
+    .auth-panel h2 {
+      margin-bottom: 8px;
+      color: #153447;
+    }
+
+    .auth-panel p {
+      margin-bottom: 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .auth-panel label {
+      display: block;
+      margin: 12px 0 6px;
+      font-weight: 600;
+    }
+
+    .auth-panel input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font: inherit;
+    }
+
+    .auth-panel button {
+      width: 100%;
+      margin-top: 18px;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: var(--teal);
+      color: white;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    #logoutButton { margin-bottom: 20px; }
+
+    [hidden] { display: none !important; }
+
     @media (max-width: 800px) {
       .container { padding: 26px 4%; }
       .stats { gap: 14px; }
       .stat-card { padding: 18px; gap: 12px; }
-      .stat-icon { width: 46px; height: 46px; flex-basis: 46px; font-size: 23px; }
+      .stat-icon {
+        width: 46px;
+        height: 46px;
+        flex-basis: 46px;
+        font-size: 23px;
+      }
       .appointments { padding: 20px; }
     }
+
     @media (max-width: 620px) {
       header { padding: 22px 5%; }
       .stats { grid-template-columns: 1fr; }
       .stat-card { padding: 20px; }
       .appointments { padding: 16px; border-radius: 12px; }
       .appointments h2 { font-size: 20px; }
+      .auth-panel { margin: 28px 4%; padding: 22px; }
     }
-.auth-panel {
-  max-width: 440px;
-  margin: 45px auto;
-  padding: 28px;
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  box-shadow: 0 8px 28px #183b5610;
-}
-.auth-panel h2 { margin-bottom: 8px; color: #153447; }
-.auth-panel p { margin-bottom: 16px; color: #64748b; }
-.auth-panel label { display: block; margin: 12px 0 6px; }
-.auth-panel input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  font: inherit;
-}
-.auth-panel button, #logoutButton {
-  padding: 12px 16px;
-  margin-top: 14px;
-  background: #087f8c;
-  color: white;
-  border: 0;
-  border-radius: 8px;
-  cursor: pointer;
-}
-.auth-panel button { width: 100%; }
-    
   </style>
 </head>
+
 <body>
   <header>
     <h1>NK Health Clinic</h1>
     <p>Admin Dashboard | Appointment Management</p>
   </header>
 
-  <main class="container">
+  <!-- Admin login -->
+  <section class="auth-panel" id="loginPanel">
+    <h2>Admin Login</h2>
+    <p>Sign in using your Firebase administrator account.</p>
+
+    <form id="loginForm">
+      <label for="adminEmail">Admin Email</label>
+      <input
+        id="adminEmail"
+        type="email"
+        autocomplete="username"
+        required
+      >
+
+      <label for="adminPassword">Password</label>
+      <input
+        id="adminPassword"
+        type="password"
+        autocomplete="current-password"
+        required
+      >
+
+      <button id="loginButton" type="submit">Sign In</button>
+    </form>
+
+    <p id="authMessage" role="status" aria-live="polite"></p>
+  </section>
+
+  <!-- Admin dashboard -->
+  <main class="container" id="dashboard" hidden>
+    <button id="logoutButton" class="action-button" type="button">
+      Sign Out
+    </button>
+
     <section class="welcome">
       <h2>Welcome, Admin!</h2>
       <p>Manage your clinic appointments from one place.</p>
@@ -161,15 +384,26 @@
     <section class="stats" aria-label="Appointment summary">
       <article class="stat-card">
         <div class="stat-icon" aria-hidden="true">📋</div>
-        <div class="stat-copy"><p>Total Appointments</p><h3 id="totalAppointments">0</h3></div>
+        <div class="stat-copy">
+          <p>Total Appointments</p>
+          <h3 id="totalAppointments">0</h3>
+        </div>
       </article>
+
       <article class="stat-card">
         <div class="stat-icon" aria-hidden="true">⏳</div>
-        <div class="stat-copy"><p>Pending Appointments</p><h3 id="pendingAppointments">0</h3></div>
+        <div class="stat-copy">
+          <p>Pending Appointments</p>
+          <h3 id="pendingAppointments">0</h3>
+        </div>
       </article>
+
       <article class="stat-card">
         <div class="stat-icon" aria-hidden="true">✅</div>
-        <div class="stat-copy"><p>Confirmed Appointments</p><h3 id="confirmedAppointments">0</h3></div>
+        <div class="stat-copy">
+          <p>Confirmed Appointments</p>
+          <h3 id="confirmedAppointments">0</h3>
+        </div>
       </article>
     </section>
 
@@ -177,59 +411,204 @@
       <div class="panel-heading">
         <div>
           <h2>Appointment Management</h2>
-          <p class="subheading">Search, review and update patient appointments.</p>
+          <p class="subheading">
+            Search, review and update patient appointments.
+          </p>
         </div>
       </div>
-      <input type="search" id="searchAppointment" placeholder="Search patient or appointment number..." aria-label="Search appointments">
+
+      <input
+        type="search"
+        id="searchAppointment"
+        placeholder="Search patient or appointment number..."
+        aria-label="Search appointments"
+      >
+
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Appointment No.</th><th>Patient</th><th>Phone</th><th>Doctor</th>
-              <th>Date</th><th>Time</th><th>Status</th><th>Action</th>
+              <th>Appointment No.</th>
+              <th>Patient</th>
+              <th>Phone</th>
+              <th>Doctor</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
-          <tbody id="appointmentTable"></tbody>
+          <tbody id="appointmentTable">
+            <tr>
+              <td colspan="8" class="empty-state">
+                Sign in to load appointments.
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
-      <p class="message" id="appointmentMessage" role="status" aria-live="polite">Loading appointments...</p>
-      <p class="connection-note">Appointments are read from this browser's local storage. Open the clinic page and admin page from the same local server address to share data.</p>
+
+      <p
+        class="message"
+        id="appointmentMessage"
+        role="status"
+        aria-live="polite"
+      >Waiting for admin login...</p>
+
+      <p class="connection-note">
+        Appointment records are loaded from Firebase Firestore.
+      </p>
     </section>
   </main>
 
-  <script>
-    "use strict";
+  <script type="module">
+    import { initializeApp } from
+      "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-    // index.html and admin.html must use the same origin and this same storage key.
-    const STORAGE_KEY = "appointments";
-    const STATUSES = ["Pending", "Confirmed", "Completed", "Cancelled"];
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      onAuthStateChanged,
+      signOut
+    } from
+      "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    function getAppointments() {
+    import {
+      getFirestore,
+      collection,
+      onSnapshot,
+      doc,
+      updateDoc
+    } from
+      "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC85RMVrfUkWgLDV80FiCY5tHNbnZiRtuQ",
+      authDomain: "nk-clinic-2004.firebaseapp.com",
+      projectId: "nk-clinic-2004",
+      storageBucket: "nk-clinic-2004.firebasestorage.app",
+      messagingSenderId: "786746449130",
+      appId: "1:786746449130:web:661bb121c4b6f28a250b93",
+      measurementId: "G-RF26GNQHH7"
+    };
+
+    // Firebase Authentication UID of the intended admin account.
+    const ADMIN_UID = "DM68yTXy6wN3XGH1O3VL9AlSnlE3";
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const loginPanel = document.getElementById("loginPanel");
+    const dashboard = document.getElementById("dashboard");
+    const loginForm = document.getElementById("loginForm");
+    const loginButton = document.getElementById("loginButton");
+    const authMessage = document.getElementById("authMessage");
+    const table = document.getElementById("appointmentTable");
+    const message = document.getElementById("appointmentMessage");
+    const searchInput = document.getElementById("searchAppointment");
+
+    const STATUSES = [
+      "Pending",
+      "Confirmed",
+      "Completed",
+      "Cancelled"
+    ];
+
+    let appointments = [];
+    let unsubscribeAppointments = null;
+
+    loginForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      loginButton.disabled = true;
+      authMessage.textContent = "Signing in...";
+
       try {
-        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-        return Array.isArray(saved) ? saved : [];
+        await signInWithEmailAndPassword(
+          auth,
+          document.getElementById("adminEmail").value.trim(),
+          document.getElementById("adminPassword").value
+        );
       } catch (error) {
-        console.error("Could not read appointments from localStorage:", error);
-        return [];
+        console.error("Login error:", error);
+        authMessage.textContent =
+          "Login failed. Check your email/password and Firebase Authentication settings.";
+      } finally {
+        loginButton.disabled = false;
       }
-    }
+    });
 
-    function saveAppointments(appointments) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(appointments));
-    }
+    document.getElementById("logoutButton")
+      .addEventListener("click", async () => {
+        try {
+          await signOut(auth);
+        } catch (error) {
+          console.error("Sign out failed:", error);
+        }
+      });
 
-    function updateStatusColor(select) {
-      select.classList.remove("status-pending", "status-confirmed", "status-completed", "status-cancelled");
-      select.classList.add("status-" + select.value.toLowerCase());
-    }
+    onAuthStateChanged(auth, (user) => {
+      if (unsubscribeAppointments) {
+        unsubscribeAppointments();
+        unsubscribeAppointments = null;
+      }
+
+      if (!user) {
+        dashboard.hidden = true;
+        loginPanel.hidden = false;
+        appointments = [];
+        authMessage.textContent = "";
+        return;
+      }
+
+      if (user.uid !== ADMIN_UID) {
+        authMessage.textContent =
+          "This account is not authorized for the admin dashboard.";
+        signOut(auth);
+        return;
+      }
+
+      loginPanel.hidden = true;
+      dashboard.hidden = false;
+      message.textContent = "Connecting to Firebase...";
+
+      unsubscribeAppointments = onSnapshot(
+        collection(db, "appointments"),
+        (snapshot) => {
+          appointments = snapshot.docs
+            .filter(item => !item.data().setup)
+            .map(item => ({
+              id: item.id,
+              ...item.data()
+            }));
+
+          updateDashboard();
+          message.textContent =
+            appointments.length +
+            " appointment(s) loaded from Firebase.";
+        },
+        (error) => {
+          console.error("Firestore read failed:", error);
+          message.textContent =
+            "Unable to load appointments. Please check Firestore security rules.";
+        }
+      );
+    });
 
     function updateDashboard() {
-      const appointments = getAppointments();
-      document.getElementById("totalAppointments").textContent = appointments.length;
+      document.getElementById("totalAppointments").textContent =
+        appointments.length;
+
       document.getElementById("pendingAppointments").textContent =
-        appointments.filter(a => !a.status || a.status === "Pending").length;
+        appointments.filter(
+          a => !a.status || a.status === "Pending"
+        ).length;
+
       document.getElementById("confirmedAppointments").textContent =
-        appointments.filter(a => a.status === "Confirmed").length;
+        appointments.filter(
+          a => a.status === "Confirmed"
+        ).length;
+
       displayAppointments();
     }
 
@@ -237,36 +616,51 @@
       const cell = document.createElement("td");
       cell.textContent = value || "N/A";
       row.appendChild(cell);
-      return cell;
+    }
+
+    function updateStatusColor(select) {
+      select.classList.remove(
+        "status-pending",
+        "status-confirmed",
+        "status-completed",
+        "status-cancelled"
+      );
+
+      select.classList.add(
+        "status-" + select.value.toLowerCase()
+      );
     }
 
     function displayAppointments() {
-      const appointments = getAppointments();
-      const table = document.getElementById("appointmentTable");
-      const message = document.getElementById("appointmentMessage");
-      const search = document.getElementById("searchAppointment").value.trim().toLowerCase();
-
       table.replaceChildren();
 
-      const filtered = appointments
-        .map((appointment, index) => ({ appointment, index }))
-        .filter(({ appointment: a }) =>
-          String(a.patientName || "").toLowerCase().includes(search) ||
-          String(a.appointmentNumber || "").toLowerCase().includes(search)
-        );
+      const search = searchInput.value.trim().toLowerCase();
+
+      const filtered = appointments.filter(a =>
+        String(a.patientName || "")
+          .toLowerCase().includes(search) ||
+        String(a.appointmentNumber || "")
+          .toLowerCase().includes(search)
+      );
 
       if (filtered.length === 0) {
         const row = document.createElement("tr");
         const cell = document.createElement("td");
+
         cell.colSpan = 8;
         cell.className = "empty-state";
-        cell.textContent = appointments.length ? "No matching appointments found." : "No appointments yet. Book one from the clinic website first.";
+        cell.textContent = appointments.length
+          ? "No matching appointments found."
+          : "No appointments found in Firebase yet.";
+
         row.appendChild(cell);
         table.appendChild(row);
+        return;
       }
 
-      filtered.forEach(({ appointment: a, index }) => {
+      filtered.forEach((a) => {
         const row = document.createElement("tr");
+
         addCell(row, a.appointmentNumber);
         addCell(row, a.patientName);
         addCell(row, a.phone);
@@ -276,55 +670,68 @@
 
         const statusCell = document.createElement("td");
         const select = document.createElement("select");
-        select.setAttribute("aria-label", "Status for " + (a.appointmentNumber || a.patientName || "appointment"));
+
+        select.setAttribute(
+          "aria-label",
+          "Status for " + (a.appointmentNumber || a.patientName || "appointment")
+        );
+
         STATUSES.forEach(status => {
           const option = document.createElement("option");
           option.value = status;
           option.textContent = status;
           select.appendChild(option);
         });
-        select.value = STATUSES.includes(a.status) ? a.status : "Pending";
+
+        select.value = STATUSES.includes(a.status)
+          ? a.status
+          : "Pending";
+
         updateStatusColor(select);
-        select.addEventListener("change", () => updateStatusColor(select));
+        select.addEventListener(
+          "change",
+          () => updateStatusColor(select)
+        );
+
         statusCell.appendChild(select);
         row.appendChild(statusCell);
 
         const actionCell = document.createElement("td");
         const button = document.createElement("button");
+
         button.type = "button";
         button.textContent = "Save";
-        button.addEventListener("click", () => {
-          const currentAppointments = getAppointments();
-          if (!currentAppointments[index]) {
-            message.textContent = "Appointment not found. Refresh the page and try again.";
-            return;
-          }
-          currentAppointments[index].status = select.value;
+
+        button.addEventListener("click", async () => {
+          button.disabled = true;
+
           try {
-            saveAppointments(currentAppointments);
-            updateDashboard();
-            message.textContent = "Status saved: " + select.value;
+            await updateDoc(
+              doc(db, "appointments", a.id),
+              { status: select.value }
+            );
+
+            message.textContent =
+              "Status saved: " + select.value;
           } catch (error) {
-            console.error("Could not save appointment status:", error);
-            message.textContent = "Could not save. Check browser storage settings.";
+            console.error("Status update failed:", error);
+            message.textContent =
+              "Status update failed. Check Firestore security rules.";
+          } finally {
+            button.disabled = false;
           }
         });
+
         actionCell.appendChild(button);
         row.appendChild(actionCell);
         table.appendChild(row);
       });
-
-      message.textContent = filtered.length + " appointment(s) found.";
     }
 
-    document.getElementById("searchAppointment").addEventListener("input", displayAppointments);
-
-    // Refresh the dashboard if the clinic page changes localStorage in another tab.
-    window.addEventListener("storage", event => {
-      if (event.key === STORAGE_KEY || event.key === null) updateDashboard();
-    });
-
-    updateDashboard();
+    searchInput.addEventListener(
+      "input",
+      displayAppointments
+    );
   </script>
 </body>
 </html>
